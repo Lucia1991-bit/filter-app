@@ -1,0 +1,155 @@
+:root {
+  --primary-color: #f2f0e8;
+  --secondary-color: #fdfdfb;
+  --dark-color: #d8d8d8;
+  --header-color: #dedcd4;
+  --hover-color: #f9f9f9;
+  --btn-border-color: #a9a8a8;
+  --btn-hover-color: #c2c0b6;
+}
+
+.container {
+  background-color: var(--primary-color);
+}
+
+.product-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.sticky-section {
+  position: sticky;
+  top: 0;
+  background-color: var(--header-color);
+  border: 1px solid var(--dark-color);
+  z-index: 10;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* 列表控制按鈕 */
+.list-controls {
+  padding: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.control-btn {
+  background-color: transparent;
+  padding: 5px;
+  border: 1px solid var(--btn-border-color);
+  cursor: pointer;
+}
+
+.control-btn:hover {
+  background-color: var(--btn-hover-color);
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 12px;
+}
+
+input {
+  height: 30px;
+  border: 1px solid var(--btn-border-color);
+  background-color: var(--secondary-color);
+}
+
+/* 列表標題 */
+.list-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  font-weight: 500;
+}
+
+/* 列表 */
+.list-content {
+  border: 1px solid var(--dark-color);
+  border-top: none;
+}
+
+.list-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  border-bottom: 1px solid #eee;
+  background-color: var(--secondary-color);
+}
+
+.list-row:hover {
+  background: var(--hover-color);
+}
+
+.cell {
+  padding: 12px;
+}
+
+/* 卡片 */
+.card-view {
+  display: none;
+  grid-gap: 16px;
+}
+
+.card {
+  border: 1px solid var(--dark-color);
+  border-radius: 8px;
+  background: var(--secondary-color);
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 16px;
+  flex: 1;
+  margin-bottom: 12px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 15px;
+}
+
+.card-info p {
+  color: #666;
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+/* RWD */
+@media (max-width: 768px) {
+  .product-list {
+    padding: 0px 20px;
+  }
+  .sticky-section {
+    width: 100vw;
+    padding: 2px 12px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .list-header,
+  .list-content {
+    display: none;
+  }
+
+  .card-view {
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
