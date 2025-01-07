@@ -1,9 +1,25 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { LuFilter } from "react-icons/lu";
 import { LuSearch } from "react-icons/lu";
 
-const ProductControls = ({ categories }) => {
+const ProductControls = ({ categories, onSearch }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSubmitSearch = () => {
+    onSearch(searchInput);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      onSearch(searchInput);
+    }
+  };
 
   return (
     <>
@@ -11,10 +27,19 @@ const ProductControls = ({ categories }) => {
         <div className="search-wrapper">
           <input
             type="text"
+            value={searchInput}
             className="search-input"
             placeholder="Product Name"
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
           />
-          <LuSearch className="search-icon" size={18} />
+          <button
+            className="search-button"
+            onClick={handleSubmitSearch}
+            aria-label="Search" // 無障礙考量
+          >
+            <LuSearch size={18} />
+          </button>
         </div>
         <select className="sort-select control-btn">
           <option value="" hidden>
