@@ -10,6 +10,8 @@
 
 body {
   background-color: var(--primary-color);
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 .product-list {
@@ -45,7 +47,7 @@ body {
   position: relative;
 }
 
-.search-button {
+.search-btn {
   position: absolute;
   background-color: transparent;
   border: none;
@@ -111,6 +113,10 @@ body {
   border: 1px solid var(--btn-border-color);
   cursor: pointer;
   border-radius: 5px;
+}
+
+.option-btn.active {
+  background-color: var(--btn-hover-color);
 }
 
 input {

@@ -3,7 +3,14 @@ import { useState } from "react";
 import { LuFilter } from "react-icons/lu";
 import { LuSearch } from "react-icons/lu";
 
-const ProductControls = ({ categories, onSearch }) => {
+const ProductControls = ({
+  categories,
+  selectedCategories,
+  showInStock,
+  onSearch,
+  onCategoryToggle,
+  onStockToggle,
+}) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
 
@@ -34,9 +41,9 @@ const ProductControls = ({ categories, onSearch }) => {
             onKeyPress={handleKeyPress}
           />
           <button
-            className="search-button"
+            className="search-btn"
             onClick={handleSubmitSearch}
-            aria-label="Search" // 無障礙考量
+            aria-label="Search"
           >
             <LuSearch size={18} />
           </button>
@@ -62,11 +69,24 @@ const ProductControls = ({ categories, onSearch }) => {
             <label className="filter-label">Filter Category</label>
             <div className="category-filters">
               {categories.map((category) => (
-                <button className="option-btn control-btn" key={category}>
+                <button
+                  className={`option-btn control-btn ${
+                    selectedCategories.includes(category) ? "active" : ""
+                  }`}
+                  key={category}
+                  onClick={() => onCategoryToggle(category)}
+                >
                   {category}
                 </button>
               ))}
-              <button className="option-btn control-btn">In Stock</button>
+              <button
+                className={`option-btn control-btn ${
+                  showInStock ? "active" : ""
+                }`}
+                onClick={onStockToggle}
+              >
+                In Stock
+              </button>
             </div>
           </div>
 

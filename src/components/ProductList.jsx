@@ -6,18 +6,29 @@ import CardItem from "./CardItem";
 import ProductControls from "./ProductControls";
 
 const ProductList = () => {
-  //管理 Header 是否需要改變樣式
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchName, setSearchName] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [showInStock, setShowInStock] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const stickyRef = useRef(null);
 
   // 過濾商品列表
   const filteredItems = useMemo(() => {
-    return items.filter((item) =>
-      item.name.toLowerCase().includes(searchName.toLowerCase().trim())
-    );
-  }, [searchName]);
+    return items.filter((item) => {
+      const filteredByName = item.name
+        .toLowerCase()
+        .includes(searchName.toLowerCase());
+
+      const filteredByCategories =
+        selectedCategories.length === 0 ||
+        selectedCategories.includes(item.category);
+
+      const filterdByStock = !showInStock || item.inStock;
+
+      return filteredByName && filteredByCategories && filterdByStock;
+    });
+  }, [searchName, selectedCategories, showInStock]);
 
   // 從 items 取得不重複的類別列表
   const categories = useMemo(() => {
@@ -29,9 +40,9 @@ const ProductList = () => {
     setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 500);
+    }, 300);
     return () => clearTimeout(timer);
-  }, [searchName]);
+  }, [searchName, selectedCategories, showInStock]);
 
   // 監測滾動事件，判斷是否改變 Header 圓角樣式
   useEffect(() => {
@@ -46,10 +57,22 @@ const ProductList = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // 篩選按紐控制
+  const handleCategoryToggle = (category) => {
+    setSelectedCategories((prev) => {
+      if (prev.includes(category)) {
+        return prev.filter((c) => c !== category);
+      }
+      return [...prev, category];
+    });
+  };
+
+  const handleStockToggle = () => {
+    setShowInStock((prev) => !prev);
+  };
+
+  // 顯示商品列表
   const renderContent = () => {
-    {
-      /* 載入中 */
-    }
     if (isLoading) {
       return (
         <div className="loading">
@@ -59,9 +82,6 @@ const ProductList = () => {
       );
     }
 
-    {
-      /* 沒有搜尋結果 */
-    }
     if (filteredItems.length === 0) {
       return (
         <div className="no-results">
@@ -97,7 +117,14 @@ const ProductList = () => {
         className={`sticky-section ${isScrolled ? "no-radius" : ""}`}
       >
         {/* 排序、篩選控制 */}
-        <ProductControls categories={categories} onSearch={setSearchName} />
+        <ProductControls
+          categories={categories}
+          selectedCategories={selectedCategories}
+          showInStock={showInStock}
+          onSearch={setSearchName}
+          onCategoryToggle={handleCategoryToggle}
+          onStockToggle={handleStockToggle}
+        />
 
         {/* 列表標題 */}
         <div className="list-header">
@@ -108,7 +135,6 @@ const ProductList = () => {
         </div>
       </div>
 
-      {/* 顯示搜尋結果 */}
       {renderContent()}
     </div>
   );
