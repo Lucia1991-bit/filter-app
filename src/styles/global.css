@@ -36,10 +36,23 @@
   gap: 10px;
 }
 
+.search-wrapper {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #555;
+  cursor: pointer;
+}
+
 .control-btn {
   background-color: transparent;
-  padding: 5px;
   border: 1px solid var(--btn-border-color);
+  border-radius: 5px;
   cursor: pointer;
 }
 
@@ -47,24 +60,66 @@
   background-color: var(--btn-hover-color);
 }
 
-.filter-section {
+.filter-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #555;
+  padding: 5px;
+  border: transparent;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background-color: var(--btn-hover-color);
+}
+
+.filter-drawer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 12px;
+  gap: 20px;
+}
+
+.filter-group {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  padding: 12px;
+}
+
+.category-filters {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.filter-label {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.option-btn {
+  width: 60px;
+  height: 30px;
+  border: 1px solid var(--btn-border-color);
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 input {
   height: 30px;
   border: 1px solid var(--btn-border-color);
   background-color: var(--secondary-color);
+  border-radius: 5px;
+  padding-left: 5px;
 }
 
 /* 列表標題 */
 .list-header {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  font-weight: 500;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 /* 列表 */
@@ -78,6 +133,7 @@ input {
   grid-template-columns: 2fr 1fr 1fr 1fr;
   border-bottom: 1px solid #eee;
   background-color: var(--secondary-color);
+  text-transform: capitalize;
 }
 
 .list-row:hover {
@@ -121,10 +177,22 @@ input {
   padding: 5px 15px;
 }
 
-.card-info p {
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-label {
+  font-size: 10px;
   color: #666;
-  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.card-info p {
+  font-size: 16px;
   margin: 4px 0;
+  text-transform: capitalize;
 }
 
 /* RWD */
@@ -134,12 +202,32 @@ input {
   }
   .sticky-section {
     width: 100vw;
-    padding: 2px 12px;
+    padding: 2px 12px 12px 10px;
     margin-left: 50%;
     transform: translateX(-50%);
     border-radius: 0;
     left: 0;
     right: 0;
+  }
+
+  .filter-drawer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .option-btn {
+    flex: 1;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .list-header,
