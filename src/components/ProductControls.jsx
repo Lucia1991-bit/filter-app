@@ -7,9 +7,13 @@ const ProductControls = ({
   categories,
   selectedCategories,
   showInStock,
+  priceRange,
+  sortOrder,
   onSearch,
   onCategoryToggle,
   onStockToggle,
+  onPriceChange,
+  onSortOrder,
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -48,7 +52,11 @@ const ProductControls = ({
             <LuSearch size={18} />
           </button>
         </div>
-        <select className="sort-select control-btn">
+        <select
+          className="sort-select control-btn"
+          value={sortOrder}
+          onChange={(e) => onSortOrder(e.target.value)}
+        >
           <option value="" hidden>
             SORT BY
           </option>
@@ -98,6 +106,8 @@ const ProductControls = ({
                 className="price-input"
                 placeholder="Lowest Price"
                 min="0"
+                value={priceRange.min}
+                onChange={(e) => onPriceChange("min", e.target.value)}
               />
               <span className="price-separator">-</span>
               <input
@@ -105,6 +115,8 @@ const ProductControls = ({
                 className="price-input"
                 placeholder="Highest Price"
                 min="0"
+                value={priceRange.max}
+                onChange={(e) => onPriceChange("max", e.target.value)}
               />
             </div>
           </div>

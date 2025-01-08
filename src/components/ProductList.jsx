@@ -10,12 +10,14 @@ const ProductList = () => {
   const [searchName, setSearchName] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [showInStock, setShowInStock] = useState(false);
+  const [priceRange, setPriceRange] = useState({ min: "", max: "" });
+  const [sortOrder, setOrder] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const stickyRef = useRef(null);
 
   // 過濾商品列表
   const filteredItems = useMemo(() => {
-    return items.filter((item) => {
+    let filtered = items.filter((item) => {
       const filteredByName = item.name
         .toLowerCase()
         .includes(searchName.toLowerCase());
@@ -26,14 +28,41 @@ const ProductList = () => {
 
       const filterdByStock = !showInStock || item.inStock;
 
-      return filteredByName && filteredByCategories && filterdByStock;
+      const filteredByPrice =
+        (!priceRange.min || item.price >= Number(priceRange.min)) &&
+        (!priceRange.max || item.price <= Number(priceRange.max));
+
+      return (
+        filteredByName &&
+        filteredByCategories &&
+        filterdByStock &&
+        filteredByPrice
+      );
     });
-  }, [searchName, selectedCategories, showInStock]);
+
+    //排序邏輯
+    if (sortOrder === "asc") {
+      return [...filtered].sort((a, b) => a.price - b.price);
+    }
+
+    if (sortOrder === "desc") {
+      return [...filtered].sort((a, b) => b.price - a.price);
+    }
+
+    return filtered;
+  }, [
+    priceRange.max,
+    priceRange.min,
+    searchName,
+    selectedCategories,
+    showInStock,
+    sortOrder,
+  ]);
 
   // 從 items 取得不重複的類別列表
   const categories = useMemo(() => {
     return [...new Set(items.map((item) => item.category))];
-  }, [items]);
+  }, []);
 
   // 當搜尋條件改變時，設置 loading
   useEffect(() => {
@@ -71,6 +100,14 @@ const ProductList = () => {
     setShowInStock((prev) => !prev);
   };
 
+  const handlePriceChange = (type, value) => {
+    setPriceRange((prev) => ({ ...prev, [type]: value }));
+  };
+
+  const handleSortOrder = (order) => {
+    setOrder(order);
+  };
+
   // 顯示商品列表
   const renderContent = () => {
     if (isLoading) {
@@ -85,7 +122,7 @@ const ProductList = () => {
     if (filteredItems.length === 0) {
       return (
         <div className="no-results">
-          <p>{`No results found for ${searchName}`}</p>
+          <p>No Results Found</p>
         </div>
       );
     }
@@ -121,9 +158,13 @@ const ProductList = () => {
           categories={categories}
           selectedCategories={selectedCategories}
           showInStock={showInStock}
+          priceRange={priceRange}
+          sortOrder={sortOrder}
           onSearch={setSearchName}
           onCategoryToggle={handleCategoryToggle}
           onStockToggle={handleStockToggle}
+          onPriceChange={handlePriceChange}
+          onSortOrder={handleSortOrder}
         />
 
         {/* 列表標題 */}
