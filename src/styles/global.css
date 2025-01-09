@@ -146,13 +146,14 @@ input {
   text-align: center;
   background-color: var(--secondary-color);
   border: 1px solid var(--dark-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loading {
   padding: 40px;
   text-align: center;
-  background-color: var(--secondary-color);
-  border: 1px solid var(--dark-color);
   border-top: none;
 }
 
@@ -164,7 +165,7 @@ input {
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
+  border: 4px solid #dfdfdf;
   border-top: 4px solid #666;
   border-radius: 50%;
   margin: 0 auto;
@@ -194,12 +195,13 @@ input {
 
 .cell {
   padding: 12px;
+  display: flex;
+  align-items: center;
 }
 
 /* 卡片 */
-.card-view {
+.card-content {
   display: none;
-  grid-gap: 16px;
 }
 
 .card {
@@ -216,7 +218,6 @@ input {
 .card-title {
   font-size: 16px;
   flex: 1;
-  margin-bottom: 12px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -245,6 +246,58 @@ input {
   font-size: 16px;
   margin: 4px 0;
   text-transform: capitalize;
+}
+
+/* 加載更多 */
+.loading-more {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.loading-more span {
+  font-size: 14px;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.loading-dot {
+  width: 3px;
+  height: 3px;
+  background-color: #777;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.loading-dot:nth-child(1) {
+  animation: fadeInOut 1.5s infinite;
+}
+
+.loading-dot:nth-child(2) {
+  animation: fadeInOut 1.5s infinite 0.5s;
+}
+
+.loading-dot:nth-child(3) {
+  animation: fadeInOut 1.5s infinite 1s;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /* RWD */
@@ -287,9 +340,20 @@ input {
     display: none;
   }
 
-  .card-view {
-    margin: 20px 0;
+  .loading {
+    background-color: transparent;
+    border: none;
+  }
+
+  .no-results {
+    background-color: transparent;
+    border: none;
+  }
+
+  .card-content {
+    margin: 30px 0;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-gap: 16px;
   }
 }

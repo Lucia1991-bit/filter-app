@@ -4,6 +4,7 @@ import items from "../data/items";
 import ListItem from "./ListItem";
 import CardItem from "./CardItem";
 import ProductControls from "./ProductControls";
+import useVirtualScroll from "../hooks/useVirtualScroll";
 
 const ProductList = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -12,7 +13,7 @@ const ProductList = () => {
   const [showInStock, setShowInStock] = useState(false);
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
   const [sortOrder, setOrder] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [filtering, setFiltering] = useState(false);
   const stickyRef = useRef(null);
 
   // 過濾商品列表
@@ -59,6 +60,10 @@ const ProductList = () => {
     sortOrder,
   ]);
 
+  const { displayCount, hasMore, loading } = useVirtualScroll(
+    filteredItems.length
+  );
+
   // 從 items 取得不重複的類別列表
   const categories = useMemo(() => {
     return [...new Set(items.map((item) => item.category))];
@@ -66,9 +71,9 @@ const ProductList = () => {
 
   // 當搜尋條件改變時，設置 loading
   useEffect(() => {
-    setIsLoading(true);
+    setFiltering(true);
     const timer = setTimeout(() => {
-      setIsLoading(false);
+      setFiltering(false);
     }, 300);
     return () => clearTimeout(timer);
   }, [searchName, selectedCategories, showInStock]);
@@ -110,7 +115,7 @@ const ProductList = () => {
 
   // 顯示商品列表
   const renderContent = () => {
-    if (isLoading) {
+    if (filtering) {
       return (
         <div className="loading">
           <div className="loading-spinner"></div>
@@ -127,22 +132,36 @@ const ProductList = () => {
       );
     }
 
+    //渲染可視範圍內的商品
+    const itemsToShow = filteredItems.slice(0, displayCount);
+
     return (
-      <>
+      <div className="product-content">
         {/* 桌面版產品列表 */}
         <div className="list-content">
-          {filteredItems.map((item) => (
+          {itemsToShow.map((item) => (
             <ListItem key={item.name} item={item} />
           ))}
         </div>
 
         {/* 手機版產品卡片 */}
-        <div className="card-view">
-          {filteredItems.map((item) => (
+        <div className="card-content">
+          {itemsToShow.map((item) => (
             <CardItem key={item.name} item={item} />
           ))}
         </div>
-      </>
+        {/* 加載更多提示 */}
+        {(hasMore || loading) && (
+          <div className="loading-more">
+            <span>Load More</span>
+            <div className="loading-dots">
+              <div className="loading-dot"></div>
+              <div className="loading-dot"></div>
+              <div className="loading-dot"></div>
+            </div>
+          </div>
+        )}
+      </div>
     );
   };
 
