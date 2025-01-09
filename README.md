@@ -41,27 +41,29 @@
 
 ## Project Structure
 
+```
 src/
 ├── components/
-│ ├── product/ # Product listing components
-│ │ ├── ProductList.jsx
-│ │ ├── ProductHeader.jsx
-│ │ ├── ListItem.jsx
-│ │ └── CardItem.jsx
-│ ├── toolbar/ # Filter and search components
-│ │ ├── ToolbarSection.jsx
-│ │ ├── SearchBar.jsx
-│ │ ├── SortSelect.jsx
-│ │ ├── FilterButtons.jsx
-│ │ └── PriceRange.jsx
-│ └── ui/ # Common UI components
-│ ├── LoadMore.jsx
-│ └── FilteringSpinner.jsx
-├── hooks/ # Custom hooks
-│ ├── useProductFilter.js
-│ └── useVirtualScroll.js
+│   ├── product/        # Product listing components
+│   │   ├── ProductList.jsx
+│   │   ├── ProductHeader.jsx
+│   │   ├── ListItem.jsx
+│   │   └── CardItem.jsx
+│   ├── toolbar/        # Filter and search components
+│   │   ├── ToolbarSection.jsx
+│   │   ├── SearchBar.jsx
+│   │   ├── SortSelect.jsx
+│   │   ├── FilterButtons.jsx
+│   │   └── PriceRange.jsx
+│   └── ui/            # Common UI components
+│       ├── LoadMore.jsx
+│       └── FilteringSpinner.jsx
+├── hooks/             # Custom hooks
+│   ├── useProductFilter.js
+│   └── useVirtualScroll.js
 └── styles/
-└── global.css
+    └── global.css
+```
 
 ## Technical Implementation
 
