@@ -20,6 +20,15 @@ body {
   padding: 100px 20px;
 }
 
+.desktop-products-count {
+  margin-bottom: 10px;
+  padding-left: 5px;
+}
+
+.mobile-products-count {
+  display: none;
+}
+
 .sticky-section {
   position: sticky;
   top: 0;
@@ -313,6 +322,17 @@ input {
     border-radius: 0;
     left: 0;
     right: 0;
+  }
+
+  .desktop-products-count {
+    display: none;
+  }
+
+  .mobile-products-count {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
   }
 
   .filter-drawer {
